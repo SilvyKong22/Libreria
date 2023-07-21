@@ -1,0 +1,56 @@
+<div class="bg-primary py-3">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3
+        class="text-white fw-medium my-0 d-flex align-items-center"
+        routerLink="/"
+        style="cursor: pointer"
+      >
+        <mat-icon class="me-2">menu_book</mat-icon>Libreria App
+      </h3>
+      <div class="d-flex">
+        <a
+          style="cursor: pointer"
+          routerLink="utenti"
+          routerLinkActive="link_active"
+          class="nav-link text-decoration-none me-4 text-white"
+          >Utenti</a
+        >
+        <a
+          style="cursor: pointer"
+          routerLink="clienti"
+          routerLinkActive="link_active"
+          class="nav-link text-decoration-none me-4 text-white"
+          >Clienti</a
+        >
+        <a
+          style="cursor: pointer"
+          routerLink="libri"
+          routerLinkActive="link_active"
+          class="nav-link text-decoration-none me-4 text-white"
+          >Libri</a
+        >
+        <a
+          style="cursor: pointer"
+          routerLink="prenotazioni"
+          routerLinkActive="link_active"
+          class="nav-link text-decoration-none me-4 text-white"
+          >Prenotazioni</a
+        >
+
+        <mat-icon
+          (click)="logout()"
+          *ngIf="loggedIn"
+          class="text-white me-2"
+          style="cursor: pointer"
+          >logout</mat-icon
+        >
+
+        <button *ngIf="!loggedIn" routerLink="/login" mat-raised-button>
+          Login
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>

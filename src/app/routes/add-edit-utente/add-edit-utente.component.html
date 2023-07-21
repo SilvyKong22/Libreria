@@ -1,0 +1,76 @@
+<form [formGroup]="utenteForm" (ngSubmit)="onSubmit()">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="card g-3 p-4 mb-5 bg-white">
+          <h3>{{ editMode ? "Modifica Utente" : "Aggiungi Utente" }}</h3>
+          <mat-form-field class="col-12">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput type="email" />
+            <mat-error *ngIf="utenteForm.controls['email'].hasError('required')"
+              >Campo non compilato</mat-error
+            >
+            <mat-error *ngIf="utenteForm.controls['email'].hasError('email')"
+              >Inserisci una mail (esempio@esempio.it)</mat-error
+            >
+          </mat-form-field>
+          <div class="row g-4">
+            <mat-form-field class="col-4">
+              <mat-label>Cognome</mat-label>
+              <input formControlName="cognome" matInput />
+              <mat-error
+                *ngIf="utenteForm.controls['cognome'].hasError('required')"
+                >Campo non compilato</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field class="col-4">
+              <mat-label>Nome</mat-label>
+              <input formControlName="nome" matInput />
+              <mat-error
+                *ngIf="utenteForm.controls['nome'].hasError('required')"
+                >Campo non compilato</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field class="col-4">
+              <mat-label>Ruolo</mat-label>
+              <mat-select formControlName="ruolo">
+                <mat-option value="ADMIN">admin</mat-option>
+                <mat-option value="USER">user</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="utenteForm.controls['ruolo'].hasError('required')"
+                >Campo non compilato</mat-error
+              >
+            </mat-form-field>
+          </div>
+
+          <div class="container mt-5">
+            <div class="row">
+              <div class="col-12">
+                <div class="d-flex justify-content-end mb-5">
+                  <button
+                    (click)="onCancel()"
+                    type="button"
+                    class="me-2"
+                    mat-flat-button
+                  >
+                    Annulla
+                  </button>
+                  <button
+                    type="submit"
+                    class="me-2"
+                    mat-flat-button
+                    color="primary"
+                    [disabled]="!utenteForm.valid"
+                  >
+                    {{ editMode ? "Aggiorna" : "Salva" }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

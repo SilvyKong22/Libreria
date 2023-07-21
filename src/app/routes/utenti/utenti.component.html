@@ -1,0 +1,61 @@
+<div class="container py-5">
+  <div class="row">
+    <app-dynamic-filters
+      [searchFilterForm]="utentiSearchFilterForm"
+      (searchEmitted)="handleSearch($event)"
+    >
+    </app-dynamic-filters>
+    <app-dynamic-table
+      [filterResults]="utentiFilterResults"
+      [displayedColumns]="utentiColumns"
+      [dataResponse$]="utentiData$"
+      [loggedUser]="loggedUser"
+      [template]="utentiTable"
+      (pageChanged)="handlePageChanged($event)"
+    >
+      <ng-template #utentiTable let-row let-column="column">
+        <ng-container *ngIf="column.indexOf('data') === -1; else dateCell">
+          {{ row[column] }}
+        </ng-container>
+        <ng-template #dateCell>
+          {{ row[column] | date : "dd/MM/yyyy" }}
+        </ng-template>
+        <ng-container *ngIf="column === 'azioni'">
+          <button
+            *ngIf="loggedUser.auth === 'ROLE_ADMIN'"
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            aria-label="Example icon-button with a menu"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <span *ngIf="loggedUser.auth !== 'ROLE_ADMIN'">-</span>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="editUtente(row)">
+              <mat-icon color="primary">edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="deleteUtente(row.id)">
+              <mat-icon color="warn">delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </ng-container>
+      </ng-template>
+    </app-dynamic-table>
+  </div>
+  <div
+    *ngIf="loggedUser.auth === 'ROLE_ADMIN'"
+    class="position-fixed"
+    style="bottom: 1rem; right: 1rem"
+  >
+    <button
+      mat-fab
+      color="primary"
+      aria-label=" "
+      routerLink="/utenti/add-edit-utente"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+<form [formGroup]="prenotazioneForm" (ngSubmit)="onSubmit()">
+  <div class="container py-5">
+    <ng-container formArrayName="prenotazioni">
+      <ng-container
+        *ngFor="let prenotazione of prenotazioni; let i = index"
+        [formGroupName]="i"
+      >
+        <div class="row">
+          <div class="col-12">
+            <div class="card g-3 p-4 mb-5 bg-white">
+              <h3>
+                {{
+                  editMode ? "Modifica Prenotazione" : "Aggiungi Prenotazione"
+                }}
+              </h3>
+
+              <div class="row g-4 align-items-center">
+                <input formControlName="libro" hidden />
+                <mat-form-field class="col-12 col-lg-3">
+                  <mat-label>Titolo</mat-label>
+                  <input formControlName="titolo" matInput />
+                </mat-form-field>
+                <mat-form-field class="col-12 col-lg-3">
+                  <mat-label>Autore</mat-label>
+                  <input formControlName="autore" matInput />
+                </mat-form-field>
+                <mat-form-field class="col-12 col-lg-3">
+                  <mat-label>Genere</mat-label>
+                  <input formControlName="genere" matInput />
+                </mat-form-field>
+
+                <div class="col-12 col-lg-3 d-flex justify-content-end">
+                  <button
+                    type="button"
+                    (click)="openDialog(i)"
+                    mat-raised-button
+                  >
+                    RICERCA UN LIBRO
+                  </button>
+                </div>
+              </div>
+
+              <div class="row g-4">
+                <mat-form-field class="col-12 col-lg-6 col-xl-3">
+                  <mat-label>Cliente</mat-label>
+                  <mat-select formControlName="cliente">
+                    <ng-container *ngFor="let cliente of clienti">
+                      <mat-option [value]="cliente.id">{{
+                        cliente.nome + " " + cliente.cognome
+                      }}</mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="col-12 col-lg-6 col-xl-3">
+                  <mat-label>Data inizio prenotazione</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="dataPrenotazione"
+                  />
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field class="col-12 col-lg-6 col-xl-3">
+                  <mat-label>Periodo di prenotazione</mat-label>
+                  <mat-select formControlName="dataRestituzione">
+                    <mat-option value="1">1 giorno</mat-option>
+                    <mat-option value="3">3 giorni</mat-option>
+                    <mat-option value="7">1 settimana</mat-option>
+                    <mat-option value="30">1 mese</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <button
+                (click)="removePrenotazione(i)"
+                [disabled]="prenotazioneFormArray.length <= 1"
+                mat-raised-button
+                color="accent"
+                class="mt-4"
+              >
+                RIMUOVI
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 px-0">
+          <button
+            (click)="addPrenotazione()"
+            [disabled]="!firstPrenotazioneFilled"
+            mat-raised-button
+            color="primary"
+            class="fw-bold"
+            type="button"
+          >
+            + AGGIUNGI PRENOTAZIONE
+          </button>
+        </div>
+
+        <div class="col-12">
+          <div class="d-flex justify-content-end mb-5">
+            <button
+              (click)="onCancel()"
+              type="button"
+              class="me-2"
+              mat-flat-button
+            >
+              Annulla
+            </button>
+            <button type="submit" class="me-2" mat-flat-button color="primary">
+              {{ editMode ? "Aggiorna" : "Salva" }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

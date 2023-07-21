@@ -1,0 +1,45 @@
+<div class="col-12">
+  <div class="bg-white p-4 mb-5 shadow_custom">
+    <h3>Filtri di ricerca</h3>
+    <form [formGroup]="searchFilterForm" class="row gx-5">
+      <ng-container *ngFor="let control of getFilterControls()">
+        <ng-container *ngIf="control.indexOf('data') === -1; else dataField">
+          <mat-form-field
+            class="col-12 {{
+              templateName === 'libri' || templateName === 'clienti'
+                ? 'col-lg-4'
+                : 'col-lg-3'
+            }}"
+          >
+            <mat-label>
+              {{ replaceFirstUppercaseWithSpace(control) }}
+            </mat-label>
+            <input matInput [formControlName]="control" placeholder="..." />
+          </mat-form-field>
+        </ng-container>
+
+        <ng-template #dataField>
+          <mat-form-field
+            class="col-12 {{
+              templateName === 'clienti' ? 'col-lg-4' : 'col-lg-3'
+            }}"
+          >
+            <mat-label>
+              {{ replaceFirstUppercaseWithSpace(control) }}
+            </mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker"
+              [formControlName]="control"
+            />
+            <mat-datepicker-toggle
+              matIconSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </ng-template>
+      </ng-container>
+    </form>
+  </div>
+</div>

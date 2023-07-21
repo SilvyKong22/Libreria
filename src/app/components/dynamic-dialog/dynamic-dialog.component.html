@@ -1,0 +1,38 @@
+<h1 [ngClass]="data.response === 'error' ? 'text-danger' : ''" mat-dialog-title>
+  {{ data.title }}
+</h1>
+<div mat-dialog-content>
+  <ng-container *ngIf="data.selectingLibro; else dynamicContent">
+    <app-libri (selectedLibroEmitted)="selectedLibroID($event)"></app-libri>
+  </ng-container>
+
+  <ng-template #dynamicContent>
+    {{ data.content }}
+  </ng-template>
+</div>
+<div mat-dialog-actions class="d-flex justify-content-end">
+  <ng-container *ngIf="data.selectingLibro; else dynamicAction">
+    <button mat-button mat-dialog-close class="text-secondary">ANNULLA</button>
+    <button
+      [disabled]="!selectedLibro"
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="selectedLibro"
+    >
+      SELEZIONA
+    </button>
+  </ng-container>
+  <ng-template #dynamicAction>
+    <button
+      *ngIf="data.actionDismiss"
+      mat-dialog-close
+      mat-button
+      class="text-secondary"
+    >
+      {{ data.actionDismiss }}
+    </button>
+    <button mat-dialog-close="true" mat-raised-button color="primary">
+      {{ data.actionConfirm }}
+    </button>
+  </ng-template>
+</div>
